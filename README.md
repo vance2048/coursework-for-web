@@ -153,10 +153,26 @@ Authorization: Bearer <access_token>
 - `POST /api/auth/verify/`: Verify token
 - `GET /api/auth/me/`: Get current user profile (authenticated)
 
-Header example:
+Notes:
 
-```http
-Authorization: Bearer <access_token>
+- For `POST /api/auth/login/` and `POST /api/auth/register/`, make sure the request header does **not** include `Authorization`.
+- For `POST /api/auth/refresh/` and `POST /api/auth/verify/`, include the corresponding JWT token in the request body.
+- For `GET /api/auth/me/`, include `Authorization: Bearer <access_token>` in the request header.
+
+Body examples:
+
+```json
+// Refresh
+{
+  "refresh": "<refresh_token>"
+}
+```
+
+```json
+// Verify
+{
+  "token": "<access_or_refresh_token>"
+}
 ```
 
 ## Resource Endpoints
