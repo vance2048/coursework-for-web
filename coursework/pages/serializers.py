@@ -217,7 +217,9 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         request = self.context.get('request')
-        review = Review.objects.create(user=request.user, **validated_data)
+        # `user` may already be injected by serializer.save(user=...) in the view.
+        user = validated_data.pop('user', None) or request.user
+        review = Review.objects.create(user=user, **validated_data)
         self.update_book_rating(review.book)
         return review
 
